@@ -1,0 +1,5 @@
+apiVersion: v2
+name: dnsever-rfc2136-bridge
+version: 0.0.1
+appVersion: 0.0.1
+kubeVersion: ">=1.18.0"
