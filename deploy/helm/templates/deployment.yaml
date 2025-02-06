@@ -20,7 +20,7 @@ spec:
   {{- end }}
   selector:
     matchLabels: {{- include "common.labels.matchLabels" . | nindent 6 }}
-    app.kubernetes.io/component: dnsever-rfc2136-bridge
+      app.kubernetes.io/component: dnsever-rfc2136-bridge
   template:
     metadata:
       labels: {{- include "common.labels.standard" . | nindent 8 }}
