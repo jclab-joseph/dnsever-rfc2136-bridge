@@ -12,7 +12,7 @@ TXT 레코드만 지원합니다.
 
 See [deploy/helm/README.md](./deploy/helm/README.md)
 
-# authfile.yaml
+## authfile.yaml
 
 ```yaml
 domains:
@@ -26,7 +26,7 @@ domains:
       secret: "E4UkMlWVBoEHfNic2tA2LsZqMpqcyi9fX/tw+lqkMgej7BwQk2RTi7VOS76UMQXt1AZEQNWstXyO5qS1FHABoQ==" # generate with "tsig-keygen -a hmac-sha512 example"
 ```
 
-# certbot 사용
+## certbot 사용
 
 ```bash
 $ certbot certonly \
@@ -49,6 +49,37 @@ dns_rfc2136_name = example
 dns_rfc2136_secret = E4UkMlWVBoEHfNic2tA2LsZqMpqcyi9fX/tw+lqkMgej7BwQk2RTi7VOS76UMQXt1AZEQNWstXyO5qS1FHABoQ==
 # TSIG key algorithm
 dns_rfc2136_algorithm = HMAC-SHA512
+```
+
+## cert-manager 예시
+
+
+```bash
+kubectl -n cert-manager create secret generic certmanager-dnsever-tsig --from-literal=tsig-secret=TSIG_SECRET
+```
+
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dnsever-prod
+spec:
+  acme:
+    email: YOUR@EMAIL.COM
+    preferredChain: ""
+    privateKeySecretRef:
+      name: letsencrypt-dnsever-prod
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - dns01:
+        rfc2136:
+          nameserver: DNSEVER_RFC2136_SERVER:2053
+          tsigAlgorithm: HMACSHA512
+          tsigKeyName: TSIG_KEY_NAME
+          tsigSecretSecretRef:
+            name: certmanager-dnsever-tsig
+            key: tsig-secret
 ```
 
 # License
