@@ -71,7 +71,7 @@ diagnosticMode:
 image:
   registry: ghcr.io
   repository: jclab-joseph/dnsever-rfc2136-bridge
-  tag: v0.0.1
+  tag: v0.0.2
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -117,7 +117,7 @@ extraEnvVarsSecret: ""
 
 ## @param replicaCount Number of NGINX replicas to deploy
 ##
-replicaCount: 2
+replicaCount: 1
 ## @param updateStrategy.type NGINX deployment strategy type
 ## @param updateStrategy.rollingUpdate NGINX deployment rolling update configuration parameters
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
@@ -299,7 +299,7 @@ startupProbe:
 ##
 livenessProbe:
   enabled: true
-  initialDelaySeconds: 30
+  initialDelaySeconds: 5
   timeoutSeconds: 5
   periodSeconds: 10
   failureThreshold: 6

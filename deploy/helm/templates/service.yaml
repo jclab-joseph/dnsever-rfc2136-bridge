@@ -35,9 +35,15 @@ spec:
   loadBalancerIP: {{ .Values.service.loadBalancerIP }}
   {{- end }}
   ports:
-    - name: dnsserver
+    - name: dnsserver-tcp
       port: {{ .Values.service.ports.dnsserver }}
-      targetPort: dnsserver
+      targetPort: dnsserver-tcp
+      {{- if and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.nodePorts.dnsserver)) }}
+      nodePort: {{ .Values.service.nodePorts.dnsserver }}
+      {{- end }}
+    - name: dnsserver-udp
+      port: {{ .Values.service.ports.dnsserver }}
+      targetPort: dnsserver-udp
       {{- if and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.nodePorts.dnsserver)) }}
       nodePort: {{ .Values.service.nodePorts.dnsserver }}
       {{- end }}
